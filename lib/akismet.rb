@@ -59,6 +59,8 @@ class Akismet
       true
     when "false"
       false
+    else
+      raise Akismet::CheckError.new(response.body)
     end
   rescue SocketError => e
     raise Akismet::CheckError, e, caller

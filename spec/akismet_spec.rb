@@ -106,5 +106,14 @@ describe "Akismet" do
       map Rack::URLMap.new("http://thekey.rest.akismet.com/1.1/comment-check" => lambda { |env| raise SocketError })
       lambda { @akismet.ham?(params.update(:comment_content => "not spam"))}.should raise_error(Akismet::CheckError)
     end
+    
+    it "should handle data validation errors" do
+      akismet = Akismet.new('anotherkey', 'http://example.com')
+      app = lambda do |env|
+        [200, {}, ["Missing required field: user_ip."]]
+      end
+      map Rack::URLMap.new("http://anotherkey.rest.akismet.com/1.1/comment-check" => app)
+      lambda { akismet.spam?(params.update(:user_ip => nil))}.should raise_error(Akismet::CheckError, "Missing required field: user_ip.")
+    end
   end
 end
