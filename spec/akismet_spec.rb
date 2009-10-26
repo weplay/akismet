@@ -71,7 +71,7 @@ describe "Akismet" do
   end
   
   it "should submit spam" do
-    map Rack::URLMap.new("http://thekey.rest.akismet.com/1.1/submit-spam" => lambda { |env| [200, {}, "true"]})
+    map Rack::URLMap.new("http://thekey.rest.akismet.com/1.1/submit-spam" => lambda { |env| [200, {}, "Thanks for making the web a better place."]})
     @akismet.submit_spam(params.update(:comment_content => "this-is-spam"))
     request.script_name.should == "/1.1/submit-spam"
     
@@ -88,7 +88,7 @@ describe "Akismet" do
   end
   
   it "should submit ham" do
-    map Rack::URLMap.new("http://thekey.rest.akismet.com/1.1/submit-ham" => lambda { |env| [200, {}, "true"]})
+    map Rack::URLMap.new("http://thekey.rest.akismet.com/1.1/submit-ham" => lambda { |env| [200, {}, "Thanks for making the web a better place."]})
     @akismet.submit_ham(params.update(:comment_content => "this-is-ham"))
     request.script_name.should == "/1.1/submit-ham"
   end

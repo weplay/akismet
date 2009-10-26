@@ -55,7 +55,7 @@ class Akismet
     end
     
     case response.body
-    when "true"
+    when "true", "Thanks for making the web a better place."
       true
     when "false"
       false
